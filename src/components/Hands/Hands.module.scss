@@ -23,7 +23,7 @@
   composes: hand;
   height: 2px;
   width: 102px;
-  background: var(--second-color);
+  @include use-mode(second);
   border-radius: 1px;
   transform-origin: 83%;
   top: calc(50% - 2px);
@@ -31,7 +31,7 @@
   animation: time 60s linear infinite;
   animation-delay: var(--delay-second);
   z-index: z(top);
-  transition: background-color 0.8s ease;
+  transition: background 0.8s ease;
 }
 
 .stem {
@@ -47,14 +47,16 @@
 
 .minute {
   composes: stem;
-  border-top: 91px solid var(--hand-color);
+  border-top: 91px solid;
+  @include use-mode(hand);
   animation: time 3600s linear infinite;
   animation-delay: var(--delay-minute);
 }
 
 .hour {
   composes: stem;
-  border-top: 71px solid var(--hand-color);
+  border-top: 71px solid;
+  @include use-mode(hand);
   animation: time 43200s linear infinite;
   animation-delay: var(--delay-hour);
 }

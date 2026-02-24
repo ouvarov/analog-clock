@@ -1,0 +1,71 @@
+@use 'sass:map';
+
+// ── Time-based modes: single source of truth ──
+// Keys = CSS properties where possible → enables use-mode() mixin
+// Exceptions: gradient-start/gradient-end for frame & cap (CSS can't transition between gradients)
+
+$modes: (
+  morning: (
+    scene: (background: #fceabb),
+    frame: (gradient-start: #b0a080, gradient-end: #6b5b3a, border-color: #7a6840),
+    face: (background: #fffdf5, border-color: #7a6840),
+    tick: (background: #5a4e2e),
+    number: (color: #3d2e0a),
+    hand: (border-top-color: #3d2e0a),
+    second: (background: #e07020),
+    cap: (gradient-start: #fff8e1, gradient-end: #c9b97a),
+  ),
+  day: (
+    scene: (background: #e8f4fd),
+    frame: (gradient-start: #9eadb8, gradient-end: #3a4a55, border-color: #4a5a65),
+    face: (background: #ffffff, border-color: #4a5a65),
+    tick: (background: #1a1917),
+    number: (color: #0e0e0c),
+    hand: (border-top-color: #050606),
+    second: (background: #e9343f),
+    cap: (gradient-start: #ffffff, gradient-end: #bfbfbf),
+  ),
+  evening: (
+    scene: (background: #2c1e3f),
+    frame: (gradient-start: #8a5a7a, gradient-end: #3a1a30, border-color: #5a2a4a),
+    face: (background: #f5eef0, border-color: #5a2a4a),
+    tick: (background: #4a2040),
+    number: (color: #2e0a20),
+    hand: (border-top-color: #2e0a20),
+    second: (background: #d94070),
+    cap: (gradient-start: #f0dce5, gradient-end: #9a7090),
+  ),
+  night: (
+    scene: (background: #0a0e1a),
+    frame: (gradient-start: #3a4060, gradient-end: #0a0e1a, border-color: #1a2040),
+    face: (background: #1a1e2e, border-color: #2a3050),
+    tick: (background: #6a7090),
+    number: (color: #8a90b0),
+    hand: (border-top-color: #c0c4d8),
+    second: (background: #5080e0),
+    cap: (gradient-start: #4a5070, gradient-end: #2a3050),
+  ),
+);
+
+// ── Build-time validation ──
+$required-keys: (
+  scene: (background),
+  frame: (gradient-start, gradient-end, border-color),
+  face: (background, border-color),
+  tick: (background),
+  number: (color),
+  hand: (border-top-color),
+  second: (background),
+  cap: (gradient-start, gradient-end),
+);
+
+@each $mode-name, $components in $modes {
+  @each $component, $required in $required-keys {
+    $styles: map.get($components, $component);
+    @each $key in $required {
+      @if not map.has-key($styles, $key) {
+        @error "Mode '#{$mode-name}' component '#{$component}' is missing '#{$key}'";
+      }
+    }
+  }
+}

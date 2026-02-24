@@ -20,14 +20,14 @@
   &::before {
     width: 1px;
     height: 5px;
-    background: var(--tick-color);
+    @include use-mode(tick);
     content: '';
     position: absolute;
     display: inline-block;
     top: 50%;
     right: 1px;
     transform: translate(0, -50%) rotate(90deg);
-    transition: background-color 0.8s ease;
+    transition: background 0.8s ease;
   }
 
   &::before {

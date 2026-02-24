@@ -1,5 +1,17 @@
 @use 'sass:map';
 @use 'sass:math';
+@use 'sass:list';
+@use 'modes-data' as modes;
+
+// ── use-mode: auto-generate var() references from map structure ──
+@mixin use-mode($component) {
+  $first-mode: list.nth(map.values(modes.$modes), 1);
+  $styles: map.get($first-mode, $component);
+
+  @each $prop, $_ in $styles {
+    #{$prop}: var(--#{$component}-#{$prop});
+  }
+}
 
 // ── Z-index layers: single source of truth ──
 $z-layers: (

@@ -2,6 +2,6 @@
   min-height: 100dvh;
   display: grid;
   place-items: center;
-  background: var(--scene-background);
+  @include use-mode(scene);
   transition: background 0.8s ease;
 }
