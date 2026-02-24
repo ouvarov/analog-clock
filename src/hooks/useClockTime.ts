@@ -37,14 +37,35 @@ export function useClockTime() {
   return delays;
 }
 
+const MODE_BOUNDARIES = [6, 12, 18, 22];
+
+function msUntilNextMode(): number {
+  const now = new Date();
+  const currentHour = now.getHours();
+  const nextBoundary = MODE_BOUNDARIES.find((h) => h > currentHour) ?? MODE_BOUNDARIES[0];
+
+  const target = new Date(now);
+  target.setHours(nextBoundary, 0, 0, 0);
+  if (nextBoundary <= currentHour) target.setDate(target.getDate() + 1);
+
+  return target.getTime() - now.getTime();
+}
+
 export function useTimeMode() {
   const [mode, setMode] = useState<TimeMode>(() => getMode(new Date().getHours()));
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setMode(getMode(new Date().getHours()));
-    }, 60_000);
-    return () => clearInterval(interval);
+    let timeout: ReturnType<typeof setTimeout>;
+
+    const scheduleNext = () => {
+      timeout = setTimeout(() => {
+        setMode(getMode(new Date().getHours()));
+        scheduleNext();
+      }, msUntilNextMode());
+    };
+
+    scheduleNext();
+    return () => clearTimeout(timeout);
   }, []);
 
   return mode;
