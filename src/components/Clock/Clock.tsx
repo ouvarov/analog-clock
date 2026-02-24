@@ -1,8 +1,8 @@
 import s from './Clock.module.scss';
-import { Hands } from '../Hands/Hands';
-import { Numbers } from '../Numbers/Numbers';
-import { Ticks } from '../Ticks/Ticks';
-import { useClockTime } from '../../hooks/useClockTime';
+import { Hands } from '@/components/Hands/Hands';
+import { Numbers } from '@/components/Numbers/Numbers';
+import { Ticks } from '@/components/Ticks/Ticks';
+import { useClockTime } from '@/hooks/useClockTime';
 
 export function Clock() {
   const { secondDelay, minuteDelay, hourDelay } = useClockTime();

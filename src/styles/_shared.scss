@@ -1,10 +1,42 @@
+@use 'sass:map';
+@use 'sass:math';
+
+// ── Z-index layers: single source of truth ──
+$z-layers: (
+  base: 1,
+  above: 5,
+  top: 10,
+  overlay: 15,
+);
+
+@function z($layer) {
+  @return map.get($z-layers, $layer);
+}
+
+// ── px → rem conversion ──
+$root-font-size: 16px;
+
+@function rem($px) {
+  @return math.div($px, $root-font-size) * 1rem;
+}
+
+// ── Mixins ──
 @mixin size($size) {
   width: $size;
   height: $size;
 }
 
+// @if/@else: automatic line-height based on font size
 @mixin helvetica($size) {
-  font-size: $size;
+  font-size: rem($size);
   font-weight: 800;
   font-family: 'Helvetica Neue', Arial, sans-serif;
+
+  @if $size > 24px {
+    line-height: 1.2;
+  } @else if $size > 16px {
+    line-height: 1.4;
+  } @else {
+    line-height: 1.6;
+  }
 }
