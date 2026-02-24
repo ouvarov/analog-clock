@@ -1,0 +1,7 @@
+.scene {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  background: var(--scene-background);
+  transition: background 0.8s ease;
+}

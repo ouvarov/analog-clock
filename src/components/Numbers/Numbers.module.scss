@@ -1,0 +1,47 @@
+@use '../../styles/shared' as *;
+
+.ring {
+  top: 50%;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 100%;
+}
+
+.pair {
+  top: 50%;
+  position: absolute;
+  width: 78%;
+  left: 50%;
+  border-radius: 100%;
+}
+
+.digit {
+  position: absolute;
+  left: 2px;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--number-color);
+  @include helvetica(20px);
+  transition: color 0.8s ease;
+}
+
+.digitBottom {
+  composes: digit;
+  right: -12px;
+  left: auto;
+}
+
+// @for: rotate each number pair, counter-rotate digits to stay upright
+@for $i from 1 through 6 {
+  .pair:nth-child(#{$i}) {
+    $rotate: $i * 30deg;
+    transform: translate(-50%, -50%) rotate($rotate);
+
+    span {
+      transform: translate(-50%, -50%) rotate(-$rotate);
+    }
+  }
+}

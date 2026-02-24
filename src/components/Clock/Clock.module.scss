@@ -1,0 +1,26 @@
+@use '../../styles/shared' as *;
+
+.frame {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include size(256px);
+  background: linear-gradient(
+    180deg,
+    var(--frame-gradient-start) 0%,
+    var(--frame-gradient-end) 100%
+  );
+  border: 2px solid var(--frame-border);
+  box-sizing: border-box;
+  border-radius: 100%;
+  transition: background 0.8s ease, border-color 0.8s ease;
+}
+
+.body {
+  @include size(222px);
+  background: var(--face-background);
+  border: 2px solid var(--face-border);
+  border-radius: 100%;
+  position: relative;
+  transition: background 0.8s ease, border-color 0.8s ease;
+}

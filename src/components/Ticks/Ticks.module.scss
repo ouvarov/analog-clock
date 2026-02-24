@@ -1,0 +1,60 @@
+.ring {
+  top: 50%;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: inset 1px 1px 0 rgba(47, 47, 80, 0.2);
+  border-radius: 100%;
+}
+
+.tick {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 97%;
+  height: 3px;
+
+  &::after,
+  &::before {
+    width: 1px;
+    height: 5px;
+    background: var(--tick-color);
+    content: '';
+    position: absolute;
+    display: inline-block;
+    top: 50%;
+    right: 1px;
+    transform: translate(0, -50%) rotate(90deg);
+    transition: background-color 0.8s ease;
+  }
+
+  &::before {
+    right: auto;
+    left: 1px;
+  }
+
+  // Every 5th tick — larger markers
+  &:nth-child(5n) {
+    &::before,
+    &::after {
+      width: 3px;
+      height: 12px;
+      right: 3px;
+    }
+
+    &::before {
+      right: auto;
+      left: 3px;
+    }
+  }
+}
+
+// @for: rotate 30 ticks × (::before + ::after) = 60 marks
+@for $i from 1 through 30 {
+  .tick:nth-child(#{$i}) {
+    $rotate: $i * 6deg;
+    transform: translate(-50%, -50%) rotate($rotate);
+  }
+}

@@ -1,0 +1,67 @@
+@use '../../styles/shared' as *;
+
+.cap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  @include size(13px);
+  background: linear-gradient(
+    180deg,
+    var(--cap-gradient-start) 0%,
+    var(--cap-gradient-end) 100%
+  );
+  border-radius: 100%;
+  z-index: 4;
+  transition: background 0.8s ease;
+}
+
+.hand {
+  position: absolute;
+  z-index: 2;
+}
+
+.second {
+  composes: hand;
+  height: 2px;
+  width: 102px;
+  background: var(--second-color);
+  border-radius: 1px;
+  transform-origin: 83%;
+  top: calc(50% - 2px);
+  right: calc(50% - 17px);
+  animation: time 60s linear infinite;
+  animation-delay: var(--delay-second);
+  z-index: 3;
+  transition: background-color 0.8s ease;
+}
+
+.stem {
+  composes: hand;
+  width: 4px;
+  border-radius: 1px;
+  transform-origin: center 17px;
+  top: calc(50% - 17px);
+  right: calc(50% - 3px);
+  border-left: 1px solid transparent;
+  border-right: 1px solid transparent;
+}
+
+.minute {
+  composes: stem;
+  border-top: 91px solid var(--hand-color);
+  animation: time 3600s linear infinite;
+  animation-delay: var(--delay-minute);
+}
+
+.hour {
+  composes: stem;
+  border-top: 71px solid var(--hand-color);
+  animation: time 43200s linear infinite;
+  animation-delay: var(--delay-hour);
+}
+
+@keyframes time {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
