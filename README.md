@@ -1,5 +1,7 @@
 # Analog Clock
 
+**[Live demo](https://ouvarov.github.io/analog-clock/)** · **[Article on DEV.to](https://dev.to/ouvarov/scss-maps-css-custom-properties-scalable-runtime-theming-without-duplication-1lfk)**
+
 A pure CSS-animated analog clock with time-based theming, built with React, TypeScript, and SCSS Modules.
 
 The clock automatically adapts its color scheme based on the time of day — morning, day, evening, and night — using a hybrid SCSS Maps + CSS Custom Properties approach described in [this article](https://dev.to/ouvarov/scss-maps-css-custom-properties-scalable-runtime-theming-without-duplication-1lfk).
@@ -54,7 +56,8 @@ src/
     Numbers/               # 6 pairs of numbers (12 digits total)
     Ticks/                 # 30 divs with ::before/::after = 60 tick marks
   styles/
-    modes.scss             # $modes SCSS map -> CSS custom properties
+    _modes-data.scss       # $modes SCSS map (theme tokens) + build-time @error validation
+    modes.scss             # @each loop: $modes map -> .mode-* classes with CSS custom properties
     _shared.scss           # shared mixins (size, helvetica)
     global.scss            # reset + modes import
   App.tsx                  # applies mode-* class + scene wrapper
@@ -63,7 +66,7 @@ src/
 
 ## How Theming Works
 
-All theme tokens live in a single SCSS map in `modes.scss`:
+All theme tokens live in a single SCSS map in `_modes-data.scss`:
 
 ```scss
 $modes: (
@@ -80,7 +83,7 @@ $modes: (
 );
 ```
 
-A nested `@each` loop generates `.mode-morning`, `.mode-day`, `.mode-evening`, `.mode-night` classes, each containing CSS custom properties like `--scene-background`, `--hand-color`, etc.
+A nested `@each` loop in `modes.scss` generates `.mode-morning`, `.mode-day`, `.mode-evening`, `.mode-night` classes, each containing CSS custom properties like `--scene-background`, `--hand-color`, etc.
 
 At runtime, React detects the current hour and applies the matching class to the root element. Components reference the custom properties — no prop drilling, no JS style calculations.
 
@@ -98,4 +101,4 @@ JavaScript calculates a negative `animation-delay` once on mount to offset the a
 
 ## License
 
-MIT
+[MIT](LICENSE)
